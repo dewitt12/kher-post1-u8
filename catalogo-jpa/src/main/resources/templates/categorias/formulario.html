@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title th:text="${titulo}">Formulario</title><style>body{font-family:sans-serif;max-width:800px;margin:2rem auto}table{border-collapse:collapse;width:100%}th,td{border:1px solid #ccc;padding:6px 10px;text-align:left}.err,.error{color:#b00020}nav a{margin-right:1rem}div.f{margin:.6rem 0}</style></head>
+<body>
+  <nav><a th:href="@{/categorias}">Categorías</a><a th:href="@{/productos}">Productos</a></nav>
+  <h1 th:text="${titulo}"></h1>
+  <form th:action="@{/categorias/guardar}" th:object="${categoria}" method="post">
+    <input type="hidden" th:field="*{id}" />
+    <div class="f"><label>Nombre:</label>
+      <input type="text" th:field="*{nombre}" />
+      <span class="err" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span></div>
+    <div class="f"><label>Descripción:</label>
+      <textarea th:field="*{descripcion}"></textarea>
+      <span class="err" th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}"></span></div>
+    <button type="submit">Guardar</button>
+    <a th:href="@{/categorias}">Cancelar</a>
+  </form>
+</body>
+</html>
