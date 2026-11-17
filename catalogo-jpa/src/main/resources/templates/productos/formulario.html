@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title th:text="${titulo}">Producto</title><style>body{font-family:sans-serif;max-width:800px;margin:2rem auto}table{border-collapse:collapse;width:100%}th,td{border:1px solid #ccc;padding:6px 10px;text-align:left}.err,.error{color:#b00020}nav a{margin-right:1rem}div.f{margin:.6rem 0}</style></head>
+<body>
+  <nav><a th:href="@{/categorias}">Categorías</a><a th:href="@{/productos}">Productos</a></nav>
+  <h1 th:text="${titulo}"></h1>
+  <form th:action="@{/productos/guardar}" th:object="${producto}" method="post">
+    <input type="hidden" th:field="*{id}" />
+    <div class="f"><label>Nombre:</label>
+      <input type="text" th:field="*{nombre}" />
+      <span class="err" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span></div>
+    <div class="f"><label>Precio:</label>
+      <input type="number" step="0.01" th:field="*{precio}" />
+      <span class="err" th:if="${#fields.hasErrors('precio')}" th:errors="*{precio}"></span></div>
+    <div class="f"><label>Stock:</label>
+      <input type="number" th:field="*{stock}" />
+      <span class="err" th:if="${#fields.hasErrors('stock')}" th:errors="*{stock}"></span></div>
+    <div class="f"><label>Categoría:</label>
+      <select name="categoriaId" required>
+        <option value="">-- Seleccione --</option>
+        <option th:each="c : ${categorias}" th:value="${c.id}" th:text="${c.nombre}"
+                th:selected="${(categoriaId != null and categoriaId == c.id) or (producto.categoria != null and producto.categoria.id == c.id)}"></option>
+      </select></div>
+    <button type="submit">Guardar</button>
+    <a th:href="@{/productos}">Cancelar</a>
+  </form>
+</body>
+</html>
